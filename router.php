@@ -13,7 +13,7 @@ if (preg_match('#^/(private|\.git|\.claude)(/|$)#', $path)) {
     http_response_code(403);
     exit;
 }
-if (in_array(ltrim($path, '/'), ['router.php', 'start-server.bat', 'stop-server.bat', 'README.md', '.gitignore', '.gitattributes'], true)) {
+if (in_array(ltrim($path, '/'), ['router.php', 'start-server.bat', 'stop-server.bat', 'update-site.bat', 'README.md', '.gitignore', '.gitattributes'], true)) {
     http_response_code(403);
     exit;
 }

@@ -13,7 +13,7 @@
   # Repository / local-development files must never be served
   # (the site is deployed from Git, so .git lives inside the document root)
   RewriteRule ^(\.git|\.claude)(/|$) - [F,L]
-  RewriteRule ^(router\.php|start-server\.bat|stop-server\.bat|README\.md|\.gitignore|\.gitattributes)$ - [F,L]
+  RewriteRule ^(router\.php|start-server\.bat|stop-server\.bat|update-site\.bat|README\.md|\.gitignore|\.gitattributes)$ - [F,L]
 
   # Serve existing files and directories as-is (assets, images, etc.)
   RewriteCond %{REQUEST_FILENAME} -f [OR]
