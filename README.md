@@ -29,7 +29,7 @@ git commit -m "وصف التعديل"
 git push
 ```
 
-عند ربط الاستضافة بالمستودع (Hostinger → Advanced → Git) يُنشر كل `push` على فرع `main` تلقائيًا إلى `public_html`.
+الاستضافة (Hostinger → radma.co → Advanced → Git) مربوطة بهذا المستودع، فيُنشر كل `push` على فرع `main` تلقائيًا إلى `public_html` خلال ثوانٍ.
 
 ## التجربة محليًا
 
