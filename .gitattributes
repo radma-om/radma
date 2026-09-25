@@ -1,0 +1,3 @@
+# Keep every file byte-for-byte identical between the working tree, GitHub and
+# the Hostinger server (the JS/CSS bundles are minified build output).
+* -text

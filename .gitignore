@@ -1,0 +1,23 @@
+# ============================================================
+# Secrets & runtime data — NEVER commit these
+# (this repository is public)
+# ============================================================
+private/mazbot-config.php
+private/logs/*
+private/cache/*
+private/rate-limit/*
+!private/logs/.gitkeep
+!private/cache/.gitkeep
+!private/rate-limit/.gitkeep
+
+# Any environment / key files, just in case
+.env
+.env.*
+*.key
+*.pem
+
+# Local tooling & OS noise
+.claude/
+*.zip
+Thumbs.db
+.DS_Store

@@ -1,0 +1,56 @@
+# ============================================================
+# RADMA website — Apache configuration
+# ============================================================
+
+# ---------- SPA routing (React Router) ----------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # The private folder must never be reachable from the web
+  RewriteRule ^private(/|$) - [F,L]
+
+  # Repository / local-development files must never be served
+  # (the site is deployed from Git, so .git lives inside the document root)
+  RewriteRule ^(\.git|\.claude)(/|$) - [F,L]
+  RewriteRule ^(router\.php|start-server\.bat|stop-server\.bat|README\.md|\.gitignore|\.gitattributes)$ - [F,L]
+
+  # Serve existing files and directories as-is (assets, images, etc.)
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # All other routes go through the React app (client-side routing)
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# ---------- Security headers ----------
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+# ---------- Compression ----------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain application/javascript application/json image/svg+xml
+</IfModule>
+
+# ---------- Caching ----------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  # Hashed build assets (filenames change on every rebuild) — cache aggressively
+  ExpiresByType application/javascript "access plus 30 days"
+  ExpiresByType text/css "access plus 30 days"
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/gif "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  # HTML must always revalidate so deployments show up immediately
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# ---------- Misc ----------
+Options -Indexes

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة أسعار بوابات الأوفرهيد | ردما</title>
+    <meta name="description" content="احسب السعر التقديري لبوابات الأوفرهيد السكشنال من ردما — اختر النوع والمقاس والمحرك والولاية واطلب عرض سعر يصلك مباشرة.">
+    <link rel="icon" type="image/png" href="../assets/images/radma-logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="../">
+                <img src="../assets/images/radma-logo.png" alt="شعار ردما" width="48" height="48">
+                <span class="brand-name">ردما للبوابات الإلكترونية</span>
+            </a>
+            <a class="site-link" href="https://radma.co" target="_blank" rel="noopener">radma.co</a>
+        </div>
+    </header>
+
+    <main class="site-main">
+        <a class="back-link" href="../">← اختيار نوع بوابة آخر</a>
+
+        <div class="calc-container">
+            <div class="calc-header">
+                <img src="../assets/images/radma-logo.png" alt="شعار ردما">
+                <h1>حاسبة أسعار بوابات الأوفرهيد</h1>
+                <p>علامة تجارية عُمانية 100% بإدارة عُمانية 100%</p>
+                <div class="color-offer">🏷️الأسعار في الحاسبة الإلكترونية تقديرية - اطلب عرض الأسعار🏷️</div>
+            </div>
+
+            <!-- بيانات العميل -->
+            <div class="section">
+                <h2><i class="fas fa-user icon"></i> بيانات العميل</h2>
+                <div class="form-group">
+                    <label for="clientName"><i class="fas fa-signature"></i> اسم العميل:</label>
+                    <input type="text" id="clientName" autocomplete="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone"><i class="fas fa-mobile-alt"></i> رقم الجوال:</label>
+                    <input type="tel" id="phone" autocomplete="tel" placeholder="مثال: 9XXXXXXX" required>
+                </div>
+                <div class="form-group">
+                    <label for="governorate"><i class="fas fa-map-marker-alt"></i> المحافظة:</label>
+                    <select id="governorate">
+                        <option value="">اختر المحافظة</option>
+                        <option value="مسقط">مسقط</option>
+                        <option value="الداخلية">الداخلية</option>
+                        <option value="شمال الشرقية">شمال الشرقية</option>
+                        <option value="جنوب الباطنة">جنوب الباطنة</option>
+                        <option value="الظاهرة">الظاهرة</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="state"><i class="fas fa-city"></i> الولاية:</label>
+                    <select id="state"></select>
+                </div>
+            </div>
+
+            <!-- مواصفات البوابة -->
+            <div class="section">
+                <h2><i class="fas fa-warehouse icon"></i> مواصفات البوابة</h2>
+                <div class="form-group">
+                    <label for="gateType"><i class="fas fa-tags"></i> النوع:</label>
+                    <select id="gateType">
+                        <option value="">اختر النوع</option>
+                        <option value="A">Type A</option>
+                        <option value="B">Type B</option>
+                    </select>
+                </div>
+
+                <div class="form-group hidden" id="dimensionsGroup">
+                    <label for="width"><i class="fas fa-ruler-combined"></i> الأبعاد:</label>
+                    <select id="width"></select>
+                    <select id="height" class="hidden" aria-label="الارتفاع"></select>
+                    <div class="dimension-note">يتم اختيار العرض والارتفاع وفقاً للمقاس الأقرب والأكبر من المقاس الفعلي</div>
+                </div>
+            </div>
+
+            <!-- نوع المحرك -->
+            <div class="section">
+                <h2><i class="fas fa-cogs icon"></i> نوع المحرك</h2>
+                <div class="form-group">
+                    <label for="motor">المحرك:</label>
+                    <select id="motor">
+                        <option value="">اختر المحرك</option>
+                        <option value="المكينة الإيطالية 1200N">المكينة الإيطالية 1200N</option>
+                        <option value="المكينة الإيطالية 1000N">المكينة الإيطالية 1000N</option>
+                        <option value="المكينة الصينية 1500N">المكينة الصينية 1500N</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- النتائج -->
+            <div class="button-group" style="text-align:center">
+                <button type="button" id="submitQuoteBtn" onclick="submitQuoteRequest()">
+                    <i class="fas fa-calculator"></i> احتساب السعر
+                </button>
+            </div>
+
+            <div id="submitStatus" class="submit-status" role="status" aria-live="polite"></div>
+
+            <div class="price-box hidden" id="priceBox" style="text-align:center">
+                <div>السعر الإجمالي:</div>
+                <div class="result" id="priceRange">0 - 0 ريال عماني</div>
+                <div class="color-offer">إختلاف الأسعار معتمداً على اللون</div>
+                <div class="notes">
+                    <i class="fas fa-info-circle"></i> الأسعار تشمل التركيب والملحقات الأساسية<br>
+                    <i class="fas fa-exclamation-triangle"></i> الأسعار ابتدائية وقد تختلف حسب طبيعة العمل<br>
+                    <i class="fas fa-shield-alt"></i> الضمان يشمل عيوب التصنيع لمدة 5 سنوات
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span class="footer-brand">ردما للبوابات الإلكترونية</span>
+            <span>خدمة العملاء: <a href="tel:+96890660001" dir="ltr">90660001</a></span>
+            <span>الموقع: نزوى – سعال</span>
+            <span>الموقع الإلكتروني: <a href="https://radma.co" target="_blank" rel="noopener">radma.co</a></span>
+            <span class="copyright">© <span id="year">2026</span> ردما للبوابات الإلكترونية — جميع الحقوق محفوظة</span>
+        </div>
+    </footer>
+
+    <script src="../assets/js/quote.js"></script>
+    <script>
+        // ============ البيانات الأساسية (بيانات تجارية — لا تُعدَّل) ============
+        const prices = {
+            A: {
+                250: {415: [355, 375], 455: [370, 385], 615: [470, 485]},
+                300: {415: [465, 495], 455: [485, 505], 615: [625, 635]}
+            },
+            B: {
+                250: {370: [270, 290], 440: [295, 315], 550: [320, 345], 600: [350, 380]}
+            },
+            motor: {"المكينة الإيطالية 1200N": 145, "المكينة الإيطالية 1000N": 135, "المكينة الصينية 1500N": 110},
+            installation: {
+                "الداخلية": {
+                    "نزوى": 80, "بهلاء": 90, "الحمراء": 90, "أدم": 100,
+                    "إزكي": 90, "منح": 90, "سمائل": 100, "بدبد": 100, "الجبل الأخضر": 140
+                },
+                "مسقط": {
+                    "مسقط": 110, "السيب": 100, "بوشر": 100, "مطرح": 100, "العامرات": 110
+                },
+                "جنوب الباطنة": {
+                    "المصنعة": 120, "بركاء": 110
+                },
+                "شمال الشرقية": {
+                    "إبراء": 110, "المضيبي": 110, "دماء والطائيين": 110, "سناو": 110
+                },
+                "الظاهرة": {
+                    "عبري": 115
+                }
+            }
+        };
+
+        // النتيجة الحالية — null تعني عدم وجود سعر صالح
+        let currentPriceMin = null;
+        let currentPriceMax = null;
+
+        function updateStates() {
+            const governorate = document.getElementById('governorate').value;
+            const stateSelect = document.getElementById('state');
+            stateSelect.innerHTML = '<option value="">اختر الولاية</option>';
+
+            if (governorate && prices.installation[governorate]) {
+                Object.keys(prices.installation[governorate]).forEach(state => {
+                    const option = document.createElement('option');
+                    option.value = state;
+                    option.textContent = state;
+                    stateSelect.appendChild(option);
+                });
+            }
+        }
+
+        function showDimensions() {
+            const type = document.getElementById('gateType').value;
+            const widthSelect = document.getElementById('width');
+            const heightSelect = document.getElementById('height');
+
+            widthSelect.innerHTML = '<option value="">اختر العرض</option>';
+            heightSelect.innerHTML = '<option value="">اختر الارتفاع</option>';
+
+            if (type === 'A') {
+                ['415', '455', '615'].forEach(w => {
+                    const option = document.createElement('option');
+                    option.value = w;
+                    option.textContent = w + ' سم';
+                    widthSelect.appendChild(option);
+                });
+                heightSelect.classList.remove('hidden');
+                ['250', '300'].forEach(h => {
+                    const option = document.createElement('option');
+                    option.value = h;
+                    option.textContent = h + ' سم';
+                    heightSelect.appendChild(option);
+                });
+            } else if (type === 'B') {
+                ['370', '440', '550', '600'].forEach(w => {
+                    const option = document.createElement('option');
+                    option.value = w;
+                    option.textContent = w + ' سم';
+                    widthSelect.appendChild(option);
+                });
+                // Type B له ارتفاع قياسي واحد 250 سم — لا حاجة لاختيار الارتفاع
+                heightSelect.classList.add('hidden');
+            }
+
+            if (type) {
+                document.getElementById('dimensionsGroup').classList.remove('hidden');
+            } else {
+                document.getElementById('dimensionsGroup').classList.add('hidden');
+            }
+        }
+
+        // إبطال النتيجة السابقة عند تغيير أي مدخل يؤثر على السعر
+        function invalidatePrice() {
+            currentPriceMin = null;
+            currentPriceMax = null;
+            document.getElementById('priceBox').classList.add('hidden');
+        }
+
+        /**
+         * الارتفاع الفعلي المعتمد: لنوع B هو 250 دائمًا، ولنوع A حسب الاختيار.
+         */
+        function getEffectiveHeight() {
+            const type = document.getElementById('gateType').value;
+            if (type === 'B') { return '250'; }
+            return document.getElementById('height').value;
+        }
+
+        /**
+         * حساب السعر. quiet=true يمنع إظهار التنبيهات (يُستخدم قبل الإرسال).
+         * يعيد {min, max} أو null إذا كانت البيانات ناقصة.
+         */
+        function calculateTotal(quiet) {
+            const type = document.getElementById('gateType').value;
+            const width = document.getElementById('width').value;
+            const height = getEffectiveHeight();
+            const motor = document.getElementById('motor').value;
+            const governorate = document.getElementById('governorate').value;
+            const state = document.getElementById('state').value;
+
+            if (!type || !width || !height || !motor || !governorate || !state) {
+                invalidatePrice();
+                if (quiet !== true) {
+                    alert("⚠️ يرجى اختيار النوع والمقاس والمحرك والمحافظة والولاية أولاً!");
+                }
+                return null;
+            }
+
+            const gatePriceRange = prices[type][height] && prices[type][height][width];
+            const motorPrice = prices.motor[motor];
+            const installPrice = prices.installation[governorate] && prices.installation[governorate][state];
+
+            if (!gatePriceRange || !motorPrice || !installPrice) {
+                invalidatePrice();
+                if (quiet !== true) {
+                    alert("⚠️ تعذر احتساب السعر للمواصفات المختارة. يرجى مراجعة الاختيارات.");
+                }
+                return null;
+            }
+
+            const minTotal = gatePriceRange[0] + motorPrice + installPrice;
+            const maxTotal = gatePriceRange[1] + motorPrice + installPrice;
+
+            currentPriceMin = minTotal;
+            currentPriceMax = maxTotal;
+
+            document.getElementById('priceBox').classList.remove('hidden');
+            document.getElementById('priceRange').textContent = minTotal + ' - ' + maxTotal + ' ريال عماني';
+            return { min: minTotal, max: maxTotal };
+        }
+
+        function submitQuoteRequest() {
+            const statusEl = document.getElementById('submitStatus');
+            const button = document.getElementById('submitQuoteBtn');
+
+            const name = document.getElementById('clientName').value.trim();
+            const rawPhone = document.getElementById('phone').value.trim();
+            const governorate = document.getElementById('governorate').value;
+            const state = document.getElementById('state').value;
+            const type = document.getElementById('gateType').value;
+            const width = document.getElementById('width').value;
+            const motor = document.getElementById('motor').value;
+
+            if (!name) {
+                RadmaQuote.setStatus(statusEl, 'error', 'يرجى إدخال اسم العميل قبل طلب عرض السعر.');
+                return;
+            }
+
+            const phone = RadmaQuote.normalizeOmaniPhone(rawPhone);
+            if (!phone) {
+                RadmaQuote.setStatus(statusEl, 'error', 'يرجى إدخال رقم جوال عماني صالح (مثال: 9XXXXXXX).');
+                return;
+            }
+
+            // إعادة الحساب دائمًا قبل الإرسال — لا يُرسل سعر قديم أبدًا
+            const result = calculateTotal(true);
+            if (result === null) {
+                RadmaQuote.setStatus(statusEl, 'error', 'يرجى إكمال جميع مواصفات البوابة واحتساب السعر قبل الإرسال.');
+                return;
+            }
+
+            const height = getEffectiveHeight();
+            const payload = {
+                calculator: 'overhead',
+                clientName: name,
+                clientPhone: phone,
+                governorate: governorate,
+                state: state,
+                gateType: 'Type ' + type,
+                widthCm: parseInt(width, 10),
+                heightCm: parseInt(height, 10),
+                motor: motor,
+                priceMin: result.min,
+                priceMax: result.max,
+                priceText: result.min + ' - ' + result.max + ' ريال عماني'
+            };
+
+            RadmaQuote.submitQuote({
+                payload: payload,
+                button: button,
+                statusEl: statusEl
+            });
+        }
+
+        // ============ ربط الأحداث ============
+        document.getElementById('governorate').addEventListener('change', function () {
+            updateStates();
+            invalidatePrice();
+        });
+        document.getElementById('state').addEventListener('change', invalidatePrice);
+        document.getElementById('gateType').addEventListener('change', function () {
+            showDimensions();
+            invalidatePrice();
+        });
+        document.getElementById('width').addEventListener('change', invalidatePrice);
+        document.getElementById('height').addEventListener('change', invalidatePrice);
+        document.getElementById('motor').addEventListener('change', invalidatePrice);
+
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

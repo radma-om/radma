@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة أسعار بوابات الرولينج شتر | ردما</title>
+    <meta name="description" content="احسب السعر التقديري لبوابات الرولينج شتر من ردما — اختر نوع الشرائح والمقاسات والولاية واطلب عرض سعر يصلك مباشرة.">
+    <link rel="icon" type="image/png" href="../assets/images/radma-logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="../">
+                <img src="../assets/images/radma-logo.png" alt="شعار ردما" width="48" height="48">
+                <span class="brand-name">ردما للبوابات الإلكترونية</span>
+            </a>
+            <a class="site-link" href="https://radma.co" target="_blank" rel="noopener">radma.co</a>
+        </div>
+    </header>
+
+    <main class="site-main">
+        <a class="back-link" href="../">← اختيار نوع بوابة آخر</a>
+
+        <div class="calc-container">
+            <div class="calc-header">
+                <img src="../assets/images/radma-logo.png" alt="شعار ردما">
+                <h1>حاسبة أسعار بوابات رولينج شتر</h1>
+                <p>علامة تجارية عُمانية 100% بإدارة عُمانية 100%</p>
+                <div class="color-offer">🏷️الأسعار في الحاسبة الإلكترونية تقديرية - اطلب عرض الأسعار🏷️</div>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-user icon"></i> بيانات العميل</h2>
+                <div class="input-group">
+                    <label for="clientName">اسم العميل:</label>
+                    <input type="text" id="clientName" autocomplete="name">
+                </div>
+                <div class="input-group">
+                    <label for="clientPhone">رقم الجوال:</label>
+                    <input type="tel" id="clientPhone" autocomplete="tel" placeholder="مثال: 9XXXXXXX">
+                </div>
+                <div class="input-group">
+                    <label for="governorate">المحافظة:</label>
+                    <select id="governorate">
+                        <option value="">اختر المحافظة</option>
+                        <option value="الداخلية">الداخلية</option>
+                        <option value="مسقط">مسقط</option>
+                        <option value="جنوب الباطنة">جنوب الباطنة</option>
+                        <option value="شمال الشرقية">شمال الشرقية</option>
+                        <option value="الظاهرة">الظاهرة</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="state">الولاية:</label>
+                    <select id="state"></select>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-door-open icon"></i> بيانات البوابة</h2>
+                <div class="input-group">
+                    <label for="width">العرض (سم):</label>
+                    <input type="number" id="width" min="1" inputmode="numeric">
+                </div>
+                <div class="input-group">
+                    <label for="height">الارتفاع (سم):</label>
+                    <input type="number" id="height" min="1" inputmode="numeric">
+                </div>
+                <div class="input-group">
+                    <label for="type">نوع الشرائح:</label>
+                    <select id="type">
+                        <option value="">اختر النوع</option>
+                    </select>
+                </div>
+                <div id="typeDescription" style="color: #666; font-size: 14px; margin-top: 10px;"></div>
+            </div>
+
+            <button type="button" id="submitQuoteBtn" onclick="submitQuoteRequest()"><i class="fas fa-calculator icon"></i> احتساب السعر</button>
+            <div class="result" id="result"></div>
+
+            <div id="submitStatus" class="submit-status" role="status" aria-live="polite"></div>
+
+            <div class="color-offer" style="text-align:center">الأسعار في الحاسبة الإلكترونية تقديرية - اطلب عرض الأسعار</div>
+            <div class="notes">
+                <i class="fas fa-info-circle"></i> الأسعار تشمل التركيب والملحقات الأساسية<br>
+                <i class="fas fa-exclamation-triangle"></i> الأسعار ابتدائية وقد تختلف حسب طبيعة العمل<br>
+                <i class="fas fa-shield-alt"></i> الضمان يشمل عيوب التصنيع لمدة 5 سنوات
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span class="footer-brand">ردما للبوابات الإلكترونية</span>
+            <span>خدمة العملاء: <a href="tel:+96890660001" dir="ltr">90660001</a></span>
+            <span>الموقع: نزوى – سعال</span>
+            <span>الموقع الإلكتروني: <a href="https://radma.co" target="_blank" rel="noopener">radma.co</a></span>
+            <span class="copyright">© <span id="year">2026</span> ردما للبوابات الإلكترونية — جميع الحقوق محفوظة</span>
+        </div>
+    </footer>
+
+    <script src="../assets/js/quote.js"></script>
+    <script>
+        // ============ البيانات الأساسية (بيانات تجارية — لا تُعدَّل) ============
+        const statesData = {
+            "الداخلية": ["نزوى", "بهلاء", "الحمراء", "أدم", "إزكي", "منح", "سمائل", "بدبد", "الجبل الأخضر"],
+            "مسقط": ["مسقط", "السيب", "بوشر", "مطرح", "العامرات"],
+            "جنوب الباطنة": ["المصنعة", "بركاء"],
+            "شمال الشرقية": ["إبراء", "سناو", "المضيبي", "دماء والطائيين"],
+            "الظاهرة": ["عبري"]
+        };
+
+        const types = [
+            {label: "الإيراني الأبيض | بيج | فضي | رمادي | أسود Grade C", price: 14, description: "شريحة ألومنيوم مزدوج الطبقات ب 3 جسور صناعة إيرانية وزن المتر المربع 4 كجم. ضمان 5 سنوات ضد التآكل والصدأ صبغة المصنع"},
+            {label: "التركي الأبيض | فضي | رمادي | أسود Grade B", price: 16.5, description: "شريحة ألومنيوم مزدوج الطبقات ب 3 جسور صناعة تركية وزن المتر المربع 5.56 كجم. ضمان 5 سنوات ضد التآكل والصدأ صبغة المصنع"},
+            {label: "التركي الخشبي Grade B", price: 26.0, description: "شريحة ألومنيوم مزدوج الطبقات ب 3 جسور صناعة تركية وزن المتر المربع 5.3 كجم. ضمان 5 سنوات ضد التآكل والصدأ صبغة المصنع"},
+            {label: "التركي الأبيض | بيج Grade A", price: 20.5, description: "شريحة ألومنيوم مزدوج الطبقات بجسر واحد صناعة تركية وزن المتر المربع 6.125 كجم. ضمان 5 سنوات ضد التآكل والصدأ صبغة المصنع"},
+            {label: "العماني الأبيض سماكة 1.1 ملم", price: 21.5, description: "شريحة ألومنيوم مزدوج الطبقات صناعة NAPCO وزن المتر المربع 8.37 كجم. ضمان 5 سنوات ضد التآكل والصدأ صبغة مصنع NAPCO"},
+            {label: "العماني الملون سماكة 1.1 ملم", price: 19.5, description: "شريحة ألومنيوم مزدوج الطبقات صناعة NAPCO وزن المتر المربع 8.37 كجم. ضمان 5 سنوات ضد التآكل والصدأ صبغ فرن حراري"},
+            {label: "العماني الأبيض سماكة 1.5 ملم", price: 27, description: "شريحة ألومنيوم مزدوج الطبقات صناعة NAPCO وزن المتر المربع 10.18 كجم. ضمان 5 سنوات ضد التآكل والصدأ صبغة مصنع NAPCO"},
+            {label: "العماني الملون سماكة 1.5 ملم", price: 24.5, description: "شريحة ألومنيوم مزدوج الطبقات صناعة NAPCO وزن المتر المربع 10.18 كجم. ضمان 5 سنوات ضد التآكل والصدأ صبغ فرن حراري"}
+        ];
+
+        const installationPrices = {
+            "نزوى": 60,
+            "بهلاء": 80,
+            "الحمراء": 80,
+            "أدم": 90,
+            "إزكي": 80,
+            "منح": 70,
+            "سمائل": 80,
+            "بدبد": 90,
+            "الجبل الأخضر": 110,
+            "مسقط": 100,
+            "السيب": 90,
+            "بوشر": 90,
+            "مطرح": 100,
+            "العامرات": 100,
+            "المصنعة": 110,
+            "بركاء": 90,
+            "إبراء": 100,
+            "المضيبي": 100,
+            "دماء والطائيين": 110,
+            "سناو": 100,
+            "عبري": 110
+        };
+
+        // السعر المحسوب الحالي — null يعني لا توجد نتيجة صالحة
+        let currentCalculatedPrice = null;
+
+        function updateStates() {
+            const governorate = document.getElementById('governorate').value;
+            const stateSelect = document.getElementById('state');
+            stateSelect.innerHTML = '<option value="">اختر الولاية</option>';
+
+            if (governorate && statesData[governorate]) {
+                statesData[governorate].forEach(state => {
+                    const option = document.createElement('option');
+                    option.value = state;
+                    option.textContent = state;
+                    stateSelect.appendChild(option);
+                });
+            }
+        }
+
+        function showDescription() {
+            const typeIndex = document.getElementById('type').value;
+            const descriptionDiv = document.getElementById('typeDescription');
+            if (typeIndex && types[typeIndex - 1]) {
+                descriptionDiv.textContent = types[typeIndex - 1].description;
+            } else {
+                descriptionDiv.textContent = '';
+            }
+        }
+
+        // إبطال النتيجة السابقة عند تغيير أي مدخل يؤثر على السعر
+        function invalidatePrice() {
+            currentCalculatedPrice = null;
+            document.getElementById('result').textContent = '';
+        }
+
+        /**
+         * حساب السعر. quiet=true يمنع رسائل التنبيه (يُستخدم قبل الإرسال).
+         * يعيد السعر رقمًا أو null.
+         */
+        function calculatePrice(quiet) {
+            const width = parseFloat(document.getElementById('width').value) || 0;
+            const height = parseFloat(document.getElementById('height').value) || 0;
+            const typeIndex = parseInt(document.getElementById('type').value, 10) || 0;
+            const state = document.getElementById('state').value;
+
+            if (!typeIndex || !state || width <= 0 || height <= 0) {
+                currentCalculatedPrice = null;
+                if (!quiet) {
+                    alert("⚠️ يرجى تعبئة جميع الحقول بشكل صحيح!");
+                }
+                return null;
+            }
+
+            const selectedType = types[typeIndex - 1];
+            const installationPrice = installationPrices[state] || 0;
+
+            // إضافة الزيادات للأبعاد
+            let addedWidth = 15;
+            let addedHeight = 60;
+
+            if (typeIndex >= 4 && typeIndex <= 8) {
+                addedWidth = 20;
+            }
+
+            const totalWidth = width + addedWidth;
+            const totalHeight = height + addedHeight;
+
+            // تحويل الأبعاد من سم إلى متر
+            const widthMeters = totalWidth / 100;
+            const heightMeters = totalHeight / 100;
+
+            // حساب المساحة
+            const area = widthMeters * heightMeters;
+
+            // حساب سعر الشرائح
+            const sheetPrice = area * selectedType.price;
+
+            // حساب سعر الملحقات
+            let accessoriesPrice = 40;
+            if (typeIndex >= 7) {
+                accessoriesPrice = 60;
+            } else if (typeIndex >= 2) {
+                accessoriesPrice = 51;
+            }
+
+            // حساب سعر القواعد
+            const basePrice = 15;
+
+            // حساب سعر الموتور
+            const motorPrice = 70;
+
+            // حساب سعر الطلاء الإضافي
+            let paintPrice = 0;
+            if (typeIndex == 6) {
+                paintPrice = 60;
+            } else if (typeIndex == 8) {
+                paintPrice = 70;
+            }
+
+            // حساب السعر الإجمالي
+            const totalPrice = sheetPrice + accessoriesPrice + basePrice + motorPrice + paintPrice + installationPrice;
+
+            currentCalculatedPrice = totalPrice;
+
+            // عرض السعر
+            document.getElementById('result').innerHTML = `
+                السعر الإجمالي: <span style="font-size:1.2em">${totalPrice.toFixed(3)} ريال عماني</span>
+            `;
+            return totalPrice;
+        }
+
+        function submitQuoteRequest() {
+            const statusEl = document.getElementById('submitStatus');
+            const button = document.getElementById('submitQuoteBtn');
+
+            const name = document.getElementById('clientName').value.trim();
+            const rawPhone = document.getElementById('clientPhone').value.trim();
+            const governorate = document.getElementById('governorate').value;
+            const state = document.getElementById('state').value;
+            const typeIndex = parseInt(document.getElementById('type').value, 10) || 0;
+            const width = parseFloat(document.getElementById('width').value) || 0;
+            const height = parseFloat(document.getElementById('height').value) || 0;
+
+            if (!name) {
+                RadmaQuote.setStatus(statusEl, 'error', 'يرجى إدخال اسم العميل قبل طلب عرض السعر.');
+                return;
+            }
+
+            const phone = RadmaQuote.normalizeOmaniPhone(rawPhone);
+            if (!phone) {
+                RadmaQuote.setStatus(statusEl, 'error', 'يرجى إدخال رقم جوال عماني صالح (مثال: 9XXXXXXX).');
+                return;
+            }
+
+            // إعادة الحساب دائمًا قبل الإرسال — لا يُرسل سعر قديم أبدًا
+            const price = calculatePrice(true);
+            if (price === null || !governorate || !state || !typeIndex) {
+                RadmaQuote.setStatus(statusEl, 'error', 'يرجى تعبئة جميع بيانات البوابة واحتساب السعر قبل الإرسال.');
+                return;
+            }
+
+            const widthAdd = (typeIndex >= 4 && typeIndex <= 8) ? 20 : 15;
+            const areaM2 = ((width + widthAdd) / 100) * ((height + 60) / 100);
+
+            const payload = {
+                calculator: 'rolling_shutter',
+                clientName: name,
+                clientPhone: phone,
+                governorate: governorate,
+                state: state,
+                slatType: types[typeIndex - 1].label,
+                widthCm: width,
+                heightCm: height,
+                estimatedPrice: Number(price.toFixed(3)),
+                priceText: price.toFixed(3) + ' ريال عماني',
+                areaM2: Number(areaM2.toFixed(3))
+            };
+
+            RadmaQuote.submitQuote({
+                payload: payload,
+                button: button,
+                statusEl: statusEl
+            });
+        }
+
+        // ============ التهيئة وربط الأحداث ============
+        document.getElementById('governorate').addEventListener('change', function () {
+            updateStates();
+            invalidatePrice();
+        });
+        document.getElementById('state').addEventListener('change', invalidatePrice);
+        document.getElementById('type').addEventListener('change', function () {
+            showDescription();
+            invalidatePrice();
+        });
+        document.getElementById('width').addEventListener('input', invalidatePrice);
+        document.getElementById('height').addEventListener('input', invalidatePrice);
+
+        window.onload = function () {
+            const typeSelect = document.getElementById('type');
+            types.forEach((type, index) => {
+                let option = document.createElement('option');
+                option.value = index + 1;
+                option.textContent = type.label;
+                typeSelect.appendChild(option);
+            });
+            document.getElementById('year').textContent = new Date().getFullYear();
+        };
+    </script>
+</body>
+</html>
