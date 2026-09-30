@@ -15,6 +15,10 @@
   RewriteRule ^(\.git|\.claude)(/|$) - [F,L]
   RewriteRule ^(router\.php|start-server\.bat|stop-server\.bat|update-site\.bat|README\.md|\.gitignore|\.gitattributes)$ - [F,L]
 
+  # Old calculator pages → the pricing system (calcshutter / calcoverhead)
+  RewriteRule ^price-calc/overhead/?(index\.html)?$ https://calcoverhead.radma.co/ [R=301,L]
+  RewriteRule ^price-calc/rolling-shutter/?(index\.html)?$ https://calcshutter.radma.co/ [R=301,L]
+
   # Serve existing files and directories as-is (assets, images, etc.)
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
