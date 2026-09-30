@@ -1,4 +1,4 @@
-# API — قبول الوصول إلى نقاط الاستقبال المحددة فقط
-<FilesMatch "^(?!(submit-quote|submit-contact)\.php$).+">
+# API — قبول الوصول إلى نقطة الاستقبال الوحيدة المتبقية (نموذج التواصل) فقط
+<FilesMatch "^(?!submit-contact\.php$).+">
     Require all denied
 </FilesMatch>

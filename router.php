@@ -17,7 +17,7 @@ if (in_array(ltrim($path, '/'), ['router.php', 'start-server.bat', 'stop-server.
     http_response_code(403);
     exit;
 }
-if (preg_match('#^/price-calc/api/#', $path) && !in_array(basename($path), ['submit-quote.php', 'submit-contact.php'], true)) {
+if (preg_match('#^/price-calc/api/#', $path) && basename($path) !== 'submit-contact.php') {
     http_response_code(403);
     exit;
 }

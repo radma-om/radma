@@ -38,20 +38,26 @@
 
 # ---------- Compression ----------
 <IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/css text/plain application/javascript application/json image/svg+xml
+  AddOutputFilterByType DEFLATE text/html text/css text/plain application/javascript application/x-javascript text/javascript application/json image/svg+xml
 </IfModule>
 
 # ---------- Caching ----------
 <IfModule mod_expires.c>
   ExpiresActive On
   # Hashed build assets (filenames change on every rebuild) — cache aggressively
+  # (the server sends .js as application/x-javascript, not application/javascript —
+  # list both so the 30-day rule actually applies instead of silently falling back)
   ExpiresByType application/javascript "access plus 30 days"
+  ExpiresByType application/x-javascript "access plus 30 days"
+  ExpiresByType text/javascript "access plus 30 days"
   ExpiresByType text/css "access plus 30 days"
   ExpiresByType image/jpeg "access plus 30 days"
   ExpiresByType image/png "access plus 30 days"
   ExpiresByType image/webp "access plus 30 days"
   ExpiresByType image/gif "access plus 30 days"
   ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType font/woff "access plus 30 days"
+  ExpiresByType font/woff2 "access plus 30 days"
   # HTML must always revalidate so deployments show up immediately
   ExpiresByType text/html "access plus 0 seconds"
 </IfModule>
