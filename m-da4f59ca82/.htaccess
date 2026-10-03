@@ -1,0 +1,5 @@
+# Unlisted campaign assets (Meta ads): no directory listing, never indexed by search engines
+Options -Indexes
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, nofollow, noarchive"
+</IfModule>
