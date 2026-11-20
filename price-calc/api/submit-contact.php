@@ -26,6 +26,13 @@ if (!is_dir($privateDir)) {
 $config = require $privateDir . '/mazbot-config.php';
 require $privateDir . '/mazbot-client.php';
 
+// ============ إعدادات نموذج "تواصل معنا" (ليست أسرارًا) ============
+// قالب واتساب المعتمد في MazBot: radma_website (5 متغيرات)
+//   {{1}} رقم الطلب، {{2}} الاسم، {{3}} الجوال، {{4}} البريد، {{5}} الرسالة
+// يُرسل من رقم واتساب العمل 96890660005 إلى الأرقام التالية (كل رقم مستقل).
+const CONTACT_TEMPLATE_ID = 3368;
+const CONTACT_RECIPIENTS = ['96890660001', '96890660002', '96899887897'];
+
 function respond(bool $success, ?string $requestId, int $httpStatus): never
 {
     http_response_code($httpStatus);
@@ -121,12 +128,6 @@ if ($name === '' || mb_strlen($name) > 100
     respond(false, null, 422);
 }
 
-if ((int) $config['contact_template_id'] <= 0) {
-    // لم يُضبط قالب "تواصل معنا" بعد في الإعدادات (contact_template_id فارغ)
-    logLine($privateDir, ['event' => 'contact_template_missing']);
-    respond(false, null, 500);
-}
-
 $requestId = makeRequestId();
 
 $messageText = "📩 رسالة جديدة من نموذج التواصل – ردما\n\n"
@@ -148,8 +149,8 @@ $templateValues = [
 // ============ الإرسال إلى أرقام الاستقبال (كل رقم مستقل) ============
 
 $results = [];
-foreach ($config['recipients'] as $recipient) {
-    $result = sendQuoteToRecipient($config, $recipient, $messageText, $templateValues, (int) $config['contact_template_id']);
+foreach (CONTACT_RECIPIENTS as $recipient) {
+    $result = sendQuoteToRecipient($config, $recipient, $messageText, $templateValues, CONTACT_TEMPLATE_ID);
     $results[$recipient] = $result;
 
     logLine($privateDir, [
