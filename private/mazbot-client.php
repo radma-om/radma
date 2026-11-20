@@ -110,7 +110,9 @@ function getMazbotToken(array $config, bool $forceRefresh = false): array
 
     $token = $response['body']['data']['token'] ?? null;
     if ($response['status'] !== 200 || !is_string($token) || $token === '') {
-        return ['token' => null, 'error' => 'login_failed_http_' . $response['status']];
+        // نص الرد عند الفشل فقط (لا يحتوي رمزًا) — يوضح سبب الرفض في اللوق
+        $reason = mb_substr(json_encode($response['body'], JSON_UNESCAPED_UNICODE) ?: '', 0, 300);
+        return ['token' => null, 'error' => 'login_failed_http_' . $response['status'] . ' body=' . $reason];
     }
 
     @file_put_contents($cacheFile, json_encode([
