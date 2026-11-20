@@ -33,10 +33,6 @@ require $privateDir . '/mazbot-client.php';
 const CONTACT_TEMPLATE_ID = 3368;
 const CONTACT_RECIPIENTS = ['96890660001', '96890660002', '96899887897'];
 
-// قالب احتياطي: إن رفض MazBot القالب 3368 لرقمٍ ما، يُعاد الإرسال لذلك الرقم بالقالب
-// المضبوط في private/mazbot-config.php ('contact_template_id') إن وُجد ومختلفًا.
-$fallbackTemplateId = (int) ($config['contact_template_id'] ?? 0);
-
 function respond(bool $success, ?string $requestId, int $httpStatus): never
 {
     http_response_code($httpStatus);
@@ -153,38 +149,30 @@ $templateValues = [
 // ============ الإرسال إلى أرقام الاستقبال (كل رقم مستقل) ============
 
 $results = [];
+$loginError = null;
 foreach (CONTACT_RECIPIENTS as $recipient) {
-    $templateId = CONTACT_TEMPLATE_ID;
-    $result = sendQuoteToRecipient($config, $recipient, $messageText, $templateValues, $templateId);
+    // فشل تسجيل الدخول (بيانات خاطئة) لن ينجح مع الرقم التالي — نتوقف بدل تكرار
+    // محاولات الدخول (حد MazBot: 5 محاولات دخول في الدقيقة لكل IP).
+    if ($loginError !== null) {
+        $result = ['success' => false, 'error' => 'skipped_after_login_failure', 'status' => 0];
+    } else {
+        $result = sendQuoteToRecipient($config, $recipient, $messageText, $templateValues, CONTACT_TEMPLATE_ID);
+        if (!$result['success'] && str_starts_with((string) $result['error'], 'login_failed')) {
+            $loginError = $result['error'];
+        }
+    }
+    $results[$recipient] = $result;
 
     logLine($privateDir, [
         'event' => 'send_attempt',
         'requestId' => $requestId,
         'calculator' => 'contact_form',
         'recipient' => $recipient,
-        'templateId' => $templateId,
+        'templateId' => CONTACT_TEMPLATE_ID,
         'success' => $result['success'],
         'httpStatus' => $result['status'],
         'error' => $result['error'],
     ]);
-
-    if (!$result['success'] && $fallbackTemplateId > 0 && $fallbackTemplateId !== CONTACT_TEMPLATE_ID) {
-        $templateId = $fallbackTemplateId;
-        $result = sendQuoteToRecipient($config, $recipient, $messageText, $templateValues, $templateId);
-
-        logLine($privateDir, [
-            'event' => 'send_attempt_fallback',
-            'requestId' => $requestId,
-            'calculator' => 'contact_form',
-            'recipient' => $recipient,
-            'templateId' => $templateId,
-            'success' => $result['success'],
-            'httpStatus' => $result['status'],
-            'error' => $result['error'],
-        ]);
-    }
-
-    $results[$recipient] = $result;
 }
 
 $successCount = count(array_filter($results, fn ($r) => $r['success']));

@@ -88,6 +88,14 @@ function getMazbotToken(array $config, bool $forceRefresh = false): array
 {
     $cacheFile = __DIR__ . '/cache/mazbot-token.json';
 
+    // قيم نموذجية لم تُستبدل في mazbot-config.php (أو وُضعت في خانة اسم المتغير بالخطأ)
+    foreach (['api_key', 'staff_email', 'staff_password'] as $field) {
+        $value = (string) ($config[$field] ?? '');
+        if ($value === '' || str_contains($value, 'CHANGE_ME') || str_contains($value, '⟪')) {
+            return ['token' => null, 'error' => 'login_failed_config_not_filled:' . $field];
+        }
+    }
+
     if (!$forceRefresh && is_readable($cacheFile)) {
         $cached = json_decode((string) file_get_contents($cacheFile), true);
         if (is_array($cached)
