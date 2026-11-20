@@ -135,3 +135,5 @@ footer a { transition: color .2s ease, transform .2s ease; }
 footer a:hover { transform: translateX(-2px); }
 
 .legal-entity{line-height:1.8;overflow-wrap:anywhere}.legal-entity p{margin:0}.legal-entity a{color:inherit;text-decoration:underline}.legal-entity a:hover{color:#fff}
+
+@media (max-width:640px){.calc-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.calc-tabs>[role=tab]{padding:.5rem .25rem;font-size:1rem;line-height:1.35;text-align:center}}
